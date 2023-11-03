@@ -1,4 +1,4 @@
 # Dotfiles
 
-Based on https://github.com/skwp/dotfiles
-Managed with https://www.chezmoi.io/
+* based on https://github.com/skwp/dotfiles
+* managed with https://www.chezmoi.io/

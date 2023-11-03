@@ -152,7 +152,9 @@ set modelines=0
 set nomodeline
 
 " ================ Custom Settings ========================
-so ~/.vim/settings.vim
+for fpath in split(globpath('~/.vim/settings', '*.vim'), '\n')
+  exe 'source' fpath
+endfor
 
 " Plug(morhetz/gruvbox)
 colorscheme gruvbox
@@ -160,50 +162,7 @@ set background=dark
 set termguicolors
 let g:gruvbox_contrast_dark = "soft"
 
-" Plug(ryanoasis/vim-devicons)
-set guifont=Inconsolata\ XL\ 12,Inconsolata\ 15,Monaco\ 12
-
-" Plug(prabirshrestha/asyncomplete.vim)
-let g:asyncomplete_auto_popup = 0
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" Plug(vim-test/vim-test)
-nmap <silent> <space>t :TestNearest<CR>
-nmap <silent> <space>T :TestFile<CR>
-nmap <silent> <space>a :TestSuite<CR>
-nmap <silent> <space>l :TestLast<CR>
-nmap <silent> <space>g :TestVisit<CR>
-
-let test#ruby#rspec#executable = 'docker-compose exec app rspec'
-let test#strategy = "vimterminal"
-
-" Plug(prabirshrestha/vim-lsp)
-nmap <space>d :LspPeekDefinition<CR>
-nmap <space>do :LspDefinition<CR>
-nmap <space>e :LspDocumentDiagnostics<CR>
-nmap <space>f :LspDocumentFormat <CR>
-nmap <space>i :LspHover<CR>
-nmap <space>s :LspStatus <CR>
-
 nmap <space>dh :Git diff HEAD~1 %<CR>
-
-
-autocmd FileType kotlin map <buffer> <space>tf :!./gradlew test -Ptag=FIXME<CR>
-autocmd FileType kotlin map <buffer> <space>tl :!./gradlew test -Ptag=FIXME -Plog<CR>
-autocmd FileType kotlin map <buffer> <space>tt :!./gradlew test -Ptag=FIXME -Ptrace<CR>
-autocmd FileType ruby map <buffer> <space>tc :!docker exec -it fuso_ubersicht_app rspec %<CR>
-autocmd FileType ruby map <buffer> <space>tf :!docker exec -it fuso_ubersicht_app rspec engines spec --tag=FIXME<CR>
-autocmd FileType ruby map <buffer> <space>sc :!eog ./tmp/capybara/shot.png<CR>
 
 if has("gui_running")
   set shell=bash\ -i
