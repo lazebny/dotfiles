@@ -1,0 +1,216 @@
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+" Plug(ryanoasis/vim-devicons)
+let g:webdevicons_enable_nerdtree = 0
+
+call plug#begin()
+  " languages
+	Plug 'prabirshrestha/asyncomplete-lsp.vim'
+	Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'mattn/vim-lsp-settings'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'vim-test/vim-test'
+  " project
+  Plug 'JazzCore/ctrlp-cmatcher'
+  Plug 'ctrlpvim/ctrlp.vim' " search by filename
+  Plug 'editorconfig/editorconfig-vim'
+  Plug 'itchyny/lightline.vim'
+  Plug 'preservim/nerdtree' " files tree on the left <ctrl+\>
+  " search
+  Plug 'rking/ag.vim' " search by <gg> -> Ag: ...
+  Plug 'google/vim-searchindex' " show number of matches in the current buffer with search by </>
+  Plug 'nelstrom/vim-visual-star-search' " search selected word by <*> in visual mode
+  " git
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-git'
+  " colors
+  Plug 'chrisbra/Colorizer' " :ColorHightlight
+  Plug 'jby/tmux.vim'
+  Plug 'morhetz/gruvbox'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'xsunsmile/showmarks'
+  " helpers
+  Plug 'Raimondi/delimitMate' " auto closing quotes
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'tomtom/tcomment_vim' " set comments on <g+c+c>
+  Plug 'tpope/vim-repeat'
+  Plug 'vim-scripts/AutoTag'
+  Plug 'vim-scripts/AnsiEsc.vim'
+  Plug 'vim-scripts/lastpos.vim'
+  " test
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " ???
+
+  " useful
+  " Plug 'mogelbrod/vim-jsonpath'
+  " Plug 'preservim/vim-indent-guides' " shows vertical indent lines
+  " Plug 'xolox/vim-session'
+call plug#end()
+
+" ================ General Config ====================
+
+set number                      "Line numbers are good
+set backspace=indent,eol,start  "Allow backspace in insert mode
+set history=1000                "Store lots of :cmdline history
+set showcmd                     "Show incomplete cmds down the bottom
+set showmode                    "Show current mode down the bottom
+set gcr=a:blinkon0              "Disable cursor blink
+set visualbell                  "No sounds
+set autoread                    "Reload files changed outside vim
+
+" This makes vim act like all other editors, buffers can
+" exist in the background without being in a window.
+" http://items.sjbach.com/319/configuring-vim-right
+set hidden
+
+"turn on syntax highlighting
+syntax on
+
+" Change leader to a comma because the backslash is too far away
+" That means all \x commands turn into ,x
+" The mapleader has to be set before vundle starts loading all
+" the plugins.
+let mapleader=","
+
+" ================ Turn Off Swap Files ==============
+
+set noswapfile
+set nobackup
+set nowb
+
+" ================ Persistent Undo ==================
+" Keep undo history across sessions, by storing in file.
+" Only works all the time.
+if has('persistent_undo') && isdirectory(expand('~').'/.vim/backups')
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  set undodir=~/.vim/backups
+  set undofile
+endif
+
+" ================ Indentation ======================
+
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+
+" Auto indent pasted text
+nnoremap p p=`]<C-o>
+nnoremap P P=`]<C-o>
+
+filetype plugin on
+filetype indent on
+
+" Display tabs and trailing spaces visually
+set list listchars=tab:\ \ ,trail:·
+
+set nowrap       "Don't wrap lines
+set linebreak    "Wrap lines at convenient points
+
+" ================ Folds ============================
+
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "dont fold by default
+
+" ================ Completion =======================
+
+set wildmode=list:longest
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/bundle/**
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
+
+" ================ Scrolling ========================
+
+set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
+
+" ================ Search ===========================
+
+set incsearch       " Find the next match as we type the search
+set hlsearch        " Highlight searches by default
+set ignorecase      " Ignore case when searching...
+set smartcase       " ...unless we type a capital
+
+" ================ Security ==========================
+set modelines=0
+set nomodeline
+
+" ================ Custom Settings ========================
+so ~/.vim/settings.vim
+
+" Plug(morhetz/gruvbox)
+colorscheme gruvbox
+set background=dark
+set termguicolors
+let g:gruvbox_contrast_dark = "soft"
+
+" Plug(ryanoasis/vim-devicons)
+set guifont=Inconsolata\ XL\ 12,Inconsolata\ 15,Monaco\ 12
+
+" Plug(prabirshrestha/asyncomplete.vim)
+let g:asyncomplete_auto_popup = 0
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ asyncomplete#force_refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" Plug(vim-test/vim-test)
+nmap <silent> <space>t :TestNearest<CR>
+nmap <silent> <space>T :TestFile<CR>
+nmap <silent> <space>a :TestSuite<CR>
+nmap <silent> <space>l :TestLast<CR>
+nmap <silent> <space>g :TestVisit<CR>
+
+let test#ruby#rspec#executable = 'docker-compose exec app rspec'
+let test#strategy = "vimterminal"
+
+" Plug(prabirshrestha/vim-lsp)
+nmap <space>d :LspPeekDefinition<CR>
+nmap <space>do :LspDefinition<CR>
+nmap <space>e :LspDocumentDiagnostics<CR>
+nmap <space>f :LspDocumentFormat <CR>
+nmap <space>i :LspHover<CR>
+nmap <space>s :LspStatus <CR>
+
+nmap <space>dh :Git diff HEAD~1 %<CR>
+
+
+autocmd FileType kotlin map <buffer> <space>tf :!./gradlew test -Ptag=FIXME<CR>
+autocmd FileType kotlin map <buffer> <space>tl :!./gradlew test -Ptag=FIXME -Plog<CR>
+autocmd FileType kotlin map <buffer> <space>tt :!./gradlew test -Ptag=FIXME -Ptrace<CR>
+autocmd FileType ruby map <buffer> <space>tc :!docker exec -it fuso_ubersicht_app rspec %<CR>
+autocmd FileType ruby map <buffer> <space>tf :!docker exec -it fuso_ubersicht_app rspec engines spec --tag=FIXME<CR>
+autocmd FileType ruby map <buffer> <space>sc :!eog ./tmp/capybara/shot.png<CR>
+
+if has("gui_running")
+  set shell=bash\ -i
+else
+  set shell=bash\ -l
+endif
+
+if executable('zsh')
+  set shell=/usr/bin/zsh\ -l
+endif
