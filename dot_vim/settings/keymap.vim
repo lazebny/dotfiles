@@ -2,67 +2,12 @@
 " General vim sanity improvements
 " ========================================
 "
-"
-" alias yw to yank the entire word 'yank inner word'
-" even if the cursor is halfway inside the word
-" FIXME: will not properly repeat when you use a dot (tie into repeat.vim)
-nnoremap ,yw yiww
-
-" ,ow = 'overwrite word', replace a word with what's in the yank buffer
-" FIXME: will not properly repeat when you use a dot (tie into repeat.vim)
-nnoremap ,ow "_diwhp
-
-"make Y consistent with C and D
-nnoremap Y y$
-function! YRRunAfterMaps()
-  nnoremap Y   :<C-U>YRYankCount 'y$'<CR>
-endfunction
-
 " Make 0 go to the first character rather than the beginning
 " of the line. When we're programming, we're almost always
 " interested in working with text rather than empty space. If
 " you want the traditional beginning of line, use ^
 nnoremap 0 ^
 nnoremap ^ 0
-
-" ,# Surround a word with #{ruby interpolation}
-map ,# ysiw#
-vmap ,# c#{<C-R>"}<ESC>
-
-" ," Surround a word with "quotes"
-map ," ysiw"
-vmap ," c"<C-R>""<ESC>
-
-" ,' Surround a word with 'single quotes'
-map ,' ysiw'
-vmap ,' c'<C-R>"'<ESC>
-
-" ,) or ,( Surround a word with (parens)
-" The difference is in whether a space is put in
-map ,( ysiw(
-map ,) ysiw)
-vmap ,( c( <C-R>" )<ESC>
-vmap ,) c(<C-R>")<ESC>
-
-" ,[ Surround a word with [brackets]
-map ,] ysiw]
-map ,[ ysiw[
-vmap ,[ c[ <C-R>" ]<ESC>
-vmap ,] c[<C-R>"]<ESC>
-
-" ,{ Surround a word with {braces}
-map ,} ysiw}
-map ,{ ysiw{
-vmap ,} c{ <C-R>" }<ESC>
-vmap ,{ c{<C-R>"}<ESC>
-
-map ,` ysiw`
-
-" gary bernhardt's hashrocket
-imap <c-l> <space>=><space>
-
-"Go to last edit location with ,.
-nnoremap ,. '.
 
 "When typing a string, your quotes auto complete. Move past the quote
 "while still in insert mode by hitting Ctrl-a. Example:
@@ -72,18 +17,6 @@ nnoremap ,. '.
 " the first quote will autoclose so you'll get 'foo' and hitting <c-a> will
 " put the cursor right after the quote
 imap <C-a> <esc>wa
-
-" ==== NERD tree
-" Open the project tree and expose current file in the nerdtree with Ctrl-\
-" " calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
-function! OpenNerdTree()
-  if &modifiable && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-  else
-    NERDTreeToggle
-  endif
-endfunction
-nnoremap <silent> <C-\> :call OpenNerdTree()<CR>
 
 " ,q to toggle quickfix window (where you have stuff like Ag)
 " ,oq to open it back up (rare)
@@ -117,12 +50,6 @@ map <silent> ,gz <C-w>o
 " this to vv and ss
 nnoremap <silent> vv <C-w>v
 nnoremap <silent> ss <C-w>s
-
-" create <%= foo %> erb tags using Ctrl-k in edit mode
-imap <silent> <C-K> <%=   %><Esc>3hi
-
-" create <%= foo %> erb tags using Ctrl-j in edit mode
-imap <silent> <C-J> <%  %><Esc>2hi
 
 " ============================
 " Shortcuts for everyday tasks
@@ -158,9 +85,26 @@ nnoremap ` '
 map ,hi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")<CR>
 
 " ,hp = html preview
-map <silent> ,hp :!open -a Safari %<CR><CR>
+map <silent> ,hp :!open -a chrome %<CR><CR>
 
 " Map Ctrl-x and Ctrl-z to navigate the quickfix error list (normally :cn and
 " :cp)
 nnoremap <silent> <C-x> :cn<CR>
 nnoremap <silent> <C-z> :cp<CR>
+
+" Use Alt- numbers to pick the tab you want
+map <silent> <A-1> :tabn 1<cr>
+map <silent> <A-2> :tabn 2<cr>
+map <silent> <A-3> :tabn 3<cr>
+map <silent> <A-4> :tabn 4<cr>
+map <silent> <A-5> :tabn 5<cr>
+map <silent> <A-6> :tabn 6<cr>
+map <silent> <A-7> :tabn 7<cr>
+map <silent> <A-8> :tabn 8<cr>
+map <silent> <A-9> :tabn 9<cr>
+
+" Resize windows with arrow keys
+nnoremap <C-Up> <C-w>+
+nnoremap <C-Down> <C-w>-
+nnoremap <C-Left> <C-w><
+nnoremap <C-Right>  <C-w>>

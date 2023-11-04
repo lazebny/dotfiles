@@ -2,14 +2,11 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" Plug(ryanoasis/vim-devicons)
-let g:webdevicons_enable_nerdtree = 0
-
 call plug#begin()
   " languages
+  Plug 'mattn/vim-lsp-settings'
   Plug 'prabirshrestha/asyncomplete-lsp.vim'
   Plug 'prabirshrestha/asyncomplete.vim'
-  Plug 'mattn/vim-lsp-settings'
   Plug 'prabirshrestha/vim-lsp'
   Plug 'sheerun/vim-polyglot'
   Plug 'vim-test/vim-test'
@@ -27,12 +24,11 @@ call plug#begin()
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-git'
   " colors
-  Plug 'chrisbra/Colorizer' " :ColorHightlight
   Plug 'jby/tmux.vim'
   Plug 'morhetz/gruvbox'
   Plug 'ryanoasis/vim-devicons'
   Plug 'xsunsmile/showmarks'
-  " helpers
+  " utils
   Plug 'Raimondi/delimitMate' " auto closing quotes
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'tomtom/tcomment_vim' " set comments on <g+c+c>
@@ -40,11 +36,13 @@ call plug#begin()
   Plug 'vim-scripts/AutoTag'
   Plug 'vim-scripts/AnsiEsc.vim'
   Plug 'vim-scripts/lastpos.vim'
-  " test
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " ???
-
-  " useful
+  " sandbox
+  " backpack
+  " Plug 'chrisbra/Colorizer' " :ColorHightlight
+  " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " ???
+  " Plug 'junegunn/fzf.vim'
   " Plug 'mogelbrod/vim-jsonpath'
+  " Plug 'nanotech/jellybeans.vim' " colorscheme
   " Plug 'preservim/vim-indent-guides' " shows vertical indent lines
   " Plug 'xolox/vim-session'
 call plug#end()
@@ -156,14 +154,7 @@ for fpath in split(globpath('~/.vim/settings', '*.vim'), '\n')
   exe 'source' fpath
 endfor
 
-" Plug(morhetz/gruvbox)
-colorscheme gruvbox
-set background=dark
-set termguicolors
-let g:gruvbox_contrast_dark = "soft"
-
-nmap <space>dh :Git diff HEAD~1 %<CR>
-
+" ================ Shell ========================
 if has("gui_running")
   set shell=bash\ -i
 else
