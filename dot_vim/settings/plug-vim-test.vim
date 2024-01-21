@@ -10,4 +10,4 @@ nmap <silent> <space>g :TestVisit<CR>
 " autocmd FileType kotlin map <buffer> <space>tf :!./gradlew test -Ptag=FIXME<CR>
 " autocmd FileType kotlin map <buffer> <space>tl :!./gradlew test -Ptag=FIXME -Plog<CR>
 " autocmd FileType kotlin map <buffer> <space>tt :!./gradlew test -Ptag=FIXME -Ptrace<CR>
-" autocmd FileType ruby map <buffer> <space>sc :!eog ./tmp/capybara/shot.png<CR>
+autocmd FileType ruby map <buffer> <space>sc :!eog ./tmp/capybara/shot.png<CR>

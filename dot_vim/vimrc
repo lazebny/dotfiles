@@ -149,6 +149,10 @@ set smartcase       " ...unless we type a capital
 set modelines=0
 set nomodeline
 
+" ================ Spell =============================
+" set spell
+" set spelllang=en
+
 " ================ Custom Settings ========================
 for fpath in split(globpath('~/.vim/settings', '*.vim'), '\n')
   exe 'source' fpath
