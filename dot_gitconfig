@@ -11,6 +11,10 @@
   frag = magenta bold
   old = red
   new = green
+[color "status"]
+  changed = yellow
+  added = green
+  untracked = red
 [alias]
   # add
   a = add                           # add
@@ -130,3 +134,5 @@
 [user]
 	email = vadim.lazebny@gmail.com
 	name = Vadim Lazebny
+[init]
+	defaultBranch = main

@@ -1,8 +1,10 @@
 nmap <space>d :LspPeekDefinition<CR>
 nmap <space>do :LspDefinition<CR>
 nmap <space>e :LspDocumentDiagnostics<CR>
-nmap <space>f :LspDocumentFormat <CR>
+nmap <space>f :LspDocumentFormat<CR>
 nmap <space>i :LspHover<CR>
+nmap <space>q :LspCodeAction<CR>
+nmap <space>r :LspRename<CR>
 nmap <space>s :LspStatus <CR>
 
 nmap <expr><c-e> lsp#scroll(+4)
