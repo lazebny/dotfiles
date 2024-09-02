@@ -1,3 +1,5 @@
+" let test#python#pytest#file_pattern = '.py'
+" let test#python#runner = 'djangotest'
 let test#ruby#rspec#executable = 'docker-compose exec app rspec'
 let test#strategy = "vimterminal"
 

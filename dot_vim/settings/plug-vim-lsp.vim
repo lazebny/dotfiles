@@ -18,7 +18,10 @@ let g:lsp_settings = {
   \  },
   \  'typeprof': {'disabled': v:true}
 \}
+let g:lsp_settings_filetype_vue = ['typescript-language-server', 'volar-server']
 
-" let g:lsp_log_verbose = 1
 " let g:lsp_log_file = expand('~/vim-lsp.log')
+" let g:lsp_log_verbose = 1
+" https://github.com/prabirshrestha/vim-lsp/pull/1362/files
+" let g:lsp_use_native_client = 1
 " let g:asyncomplete_log_file = expand('~/asyncomplete.log')
